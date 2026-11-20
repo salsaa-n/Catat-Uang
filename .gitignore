@@ -1,0 +1,9 @@
+build/
+.dart_tool/
+.gradle/
+local.properties
+*.iml
+.idea/
+.vscode/
+*.log
+node_modules/

@@ -1,0 +1,201 @@
+﻿<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>CatatUang</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Kadwa:wght@700&display=swap');
+:root{--blue:#43a6dd;--pale:#badefc;--paler:#d4e7f7;--ink:#111;--muted:#aaa;--green:#3b9438;--red:#ff0004}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#eceff1;font-family:Inter,Arial,sans-serif;color:var(--ink)}
+#viewport{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#phone{position:relative;width:402px;height:874px;transform-origin:center center;background:white;overflow:hidden;box-shadow:none}
+.screen{position:absolute;inset:0;width:402px;height:874px;background:#fff;overflow:hidden;display:none}
+.screen.active{display:block}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+input{font:inherit;color:inherit;outline:none;border:0;background:transparent}
+.icon{display:inline-flex;align-items:center;justify-content:center}
+.back{position:absolute;left:10px;top:48px;width:30px;height:30px;border-radius:50%;font-size:25px;line-height:1;background:white}
+.topbar{position:absolute;left:0;top:44px;width:100%;height:66px;background:var(--pale);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.topbar .back{top:15px;left:10px}
+.btn{display:flex;align-items:center;justify-content:center;border-radius:20px;background:var(--pale);font-size:15px}
+#signup .logo{position:absolute;top:108px;left:152px;width:99px;height:99px;background:var(--blue);border-radius:20px;display:grid;place-items:center;color:white}
+#signup .brand{position:absolute;top:204px;width:100%;text-align:center;color:var(--blue);font:700 24px Kadwa,Georgia,serif}
+#signup .subhead{position:absolute;top:269px;width:100%;text-align:center;font-size:15px}
+#signup .tagline{position:absolute;top:301px;width:100%;text-align:center;font-size:13px;color:#b3b3b3}
+.field-label{position:absolute;left:19px;font-size:13px}
+.field{position:absolute;left:19px;width:369px;height:40px;border-radius:4px;background:#f2f5f7;border:1px solid #c6d5de;display:flex;align-items:center;padding:0 14px;gap:12px;color:#aaa;font-size:13px}
+#signup .name-label{top:363px}#signup .name-field{top:388px}#signup .phone-label{top:445px}#signup .phone-field{top:470px}
+.field input{width:100%;height:100%;font-size:13px}.field input::placeholder{color:#b3b3b3}
+#signup .register{position:absolute;top:549px;left:85px;width:214px;height:40px;border-radius:10px;background:var(--blue);color:white;font-size:14px;font-weight:700}
+#verify .back{top:60px;left:9px;background:var(--pale);font-size:20px}#verify .title{position:absolute;top:68px;left:56px;font-size:16px}
+#verify .helper{position:absolute;left:24px;right:23px;top:145px;font-size:12px;font-style:italic;color:#b3b3b3}
+#verify .helper b{color:var(--blue);font-weight:400}
+#verify .otp{position:absolute;top:225px;left:41px;display:flex;gap:16px}
+#verify .otp input{width:40px;height:40px;border:1px solid var(--blue);border-radius:5px;text-align:center;font-size:18px}
+#verify .resend{position:absolute;top:289px;left:0;width:100%;text-align:center;font-size:10px}
+#verify .resend span{color:var(--blue);cursor:pointer}
+#verify .verify-btn{position:absolute;top:344px;left:26px;width:342px;height:40px;border-radius:22px;background:var(--pale);font-size:14px}
+#dashboard .hero{position:absolute;top:67px;left:0;width:402px;height:253px;background:var(--pale)}
+#dashboard .balance-card{position:absolute;top:106px;left:17px;width:369px;height:176px;background:white;border-radius:2px;padding:24px 23px}
+.small{font-size:11px;color:#222}.balance{font-size:24px;font-weight:800;margin-top:4px}
+.money-split{display:flex;align-items:center;margin-top:16px}.money-col{width:50%;padding-left:5px}
+.money-col .label{font-size:11px;color:#777;margin-bottom:3px}.money-col strong{font-size:13px;color:var(--green)}
+.money-col.out{border-left:1px solid #888;padding-left:18px}.money-col.out strong{color:var(--red)}
+#dashboard .quick-title{position:absolute;top:348px;left:23px;font-size:14px;font-weight:700}
+.quick-row{position:absolute;top:388px;left:15px;width:372px;display:flex;justify-content:space-between}
+.quick{width:76px;text-align:center;font-size:10px}
+.quick .bubble{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;font-size:21px}
+.quick:nth-child(1) .bubble{background:#d4efec}.quick:nth-child(2) .bubble{background:#f6d9df}.quick:nth-child(3) .bubble{background:#d4e7f7}.quick:nth-child(4) .bubble{background:#e2dafa}
+#dashboard .divider{position:absolute;top:483px;width:100%;height:1px;background:#aaa}
+#dashboard .tx-title{position:absolute;top:514px;left:30px;font-weight:700;font-size:14px}
+#dashboard .seeall{position:absolute;top:510px;right:25px;font-size:16px;border-bottom:1px solid}
+.transactions{position:absolute;top:548px;left:16px;width:370px}
+.tx{height:54px;display:grid;grid-template-columns:42px 1fr auto;align-items:center}
+.tx-icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#d5efeb;font-size:16px}
+.tx:nth-child(2) .tx-icon,.tx:nth-child(3) .tx-icon{background:#f7dfe3}
+.tx-name{font-size:13px;font-weight:700}.tx-kind{font-size:11px;color:#555;margin-top:2px}
+.tx-value{text-align:right;font-size:13px;font-weight:700;color:var(--green)}.tx-value.red{color:var(--red)}
+.tx-date{font-size:10px;color:#333;font-weight:400;margin-top:2px}
+.bottom-nav{position:absolute;left:0;bottom:0;width:100%;height:92px;border-top:1px solid #999;background:#fff;display:grid;grid-template-columns:repeat(4,1fr);padding-top:8px}
+.navitem{text-align:center;font-size:10px;display:flex;align-items:center;flex-direction:column;gap:4px}
+.navitem .glyph{font-size:23px;line-height:25px}
+#categories .tabrow{position:absolute;top:148px;left:0;width:100%;display:flex;justify-content:space-around;font-size:14px}
+.tabrow{position:absolute;left:0;width:100%;display:flex;justify-content:space-around;font-size:14px}.tab{position:relative;padding:0 8px 7px}.tab.selected:after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--pale)}
+.catlist{position:absolute;top:244px;left:24px;right:22px}
+.catrow{height:74px;display:flex;align-items:center;gap:13px;font-size:16px}
+.catdot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:16px}
+#categories .add-category{position:absolute;top:621px;left:45px;width:313px;height:50px;border-radius:20px;background:var(--pale);font-size:14px}
+#addcat .topbar{height:44px;top:44px;font-size:16px}
+#addcat .cancel{position:absolute;left:12px;top:15px;font-size:14px;font-weight:700;z-index:1}
+#addcat .done{position:absolute;right:27px;top:14px;font-size:22px;z-index:1}
+#addcat .tabrow{top:158px}
+#addcat .catname{position:absolute;left:85px;top:234px;width:290px;height:40px;background:#d4e7f7;border-radius:15px;padding:0 14px;font-size:12px}
+#addcat .palette{position:absolute;top:325px;left:25px;width:352px;display:grid;grid-template-columns:repeat(5,40px);justify-content:space-between;row-gap:18px}
+.swatch{height:40px;width:40px;border-radius:50%;display:grid;place-items:center}
+.swatch.active{color:white}
+#addcat .icons{position:absolute;top:598px;left:72px;display:flex;gap:12px}
+.iconpick{width:40px;height:40px;border-radius:50%;background:#d9d9d9;display:grid;place-items:center}
+.iconpick.active{background:#d4e7f7}
+#budget{width:412px;height:878px}
+#budget .back{background:var(--pale)}#budget .title{position:absolute;top:51px;width:100%;text-align:center;font-size:20px;font-weight:700}
+#budget .monthbar{position:absolute;left:39px;top:117px;width:338px;height:28px;border-radius:20px;background:#d4e7f7;display:flex;align-items:center;justify-content:space-around;font-size:11px}
+#budget .month{height:28px;padding:0 14px;border-radius:16px;display:grid;place-items:center}
+#budget .month.active{background:var(--blue)}
+#budget .total-card{position:absolute;left:39px;top:187px;width:338px;height:134px;border-radius:20px;background:var(--pale);padding:17px 20px}
+#budget .total-label{font-size:10px}#budget .total-num{font-size:16px;margin-top:10px}
+.progress{height:10px;background:#ced8e0;border-radius:20px;margin-top:10px;overflow:hidden}
+.progress i{display:block;background:var(--blue);height:100%;border-radius:20px}
+#budget .remain{margin-top:7px;font-size:10px;color:#888}#budget .remain b{color:var(--blue);font-weight:800}
+#budget .budget-heading{position:absolute;top:348px;left:39px;font-size:13px;font-weight:700}
+.budget-list{position:absolute;top:386px;left:40px;right:39px}
+.brow{height:69px;display:grid;grid-template-columns:35px 1fr 38px;column-gap:9px;align-items:center}
+.bico{width:35px;height:35px;border-radius:50%;background:var(--pale);display:grid;place-items:center}
+.btext{font-size:11px}.btext small{display:block;color:#aaa;font-size:8px;margin-top:2px}
+.btext .progress{height:5px;margin-top:5px;width:178px}
+.percent{font-size:9px;color:#aaa;text-align:right}
+#budget .budget-add{position:absolute;top:697px;left:103px;width:213px;height:31px;font-size:12px}
+#profile .title{position:absolute;top:47px;width:100%;text-align:center;font-size:16px;font-weight:300}
+#profile .pback{position:absolute;top:39px;left:24px;font-size:24px}
+#profile .avatar{position:absolute;top:104px;left:157px;width:88px;height:88px;border:1px solid black;border-radius:50%;display:grid;place-items:center;font-size:38px}
+.profile-row{position:absolute;left:0;width:100%;height:45px;background:var(--pale);border:1px solid #d4e7f7;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:12px}
+.profile-row.one{top:225px}.profile-row.two{top:271px}
+.profile-action{position:absolute;left:0;width:100%;height:42px;background:var(--pale);text-align:center;font-size:12px}
+.profile-action.logout{top:327px}.profile-action.delete{top:375px}
+#toast{position:absolute;z-index:10;bottom:108px;left:50%;transform:translateX(-50%);background:#222;color:white;padding:10px 16px;border-radius:20px;font-size:12px;display:none;white-space:nowrap}
+@media (prefers-reduced-motion:no-preference){.screen{animation:appear .12s ease-out}@keyframes appear{from{opacity:.8}to{opacity:1}}}
+</style>
+</head>
+<body>
+<div id="viewport"><main id="phone">
+<section class="screen active" id="signup" aria-label="Daftar">
+  <div class="logo"><svg width="34" height="28" viewBox="0 0 34 28" fill="none" aria-hidden="true"><path d="M5 3h24v21H5z" fill="white"/><path d="M5 7h24M21 16h1" stroke="#43a6dd" stroke-width="2"/><circle cx="23" cy="16" r="2" fill="#43a6dd"/></svg></div>
+  <div class="brand">CatatUang</div><div class="subhead">Buat Akun Baru</div><div class="tagline">Mulai Kelola Keuanganmu Dengan Lebih Mudah.</div>
+  <label class="field-label name-label">Nama Lengkap</label>
+  <div class="field name-field"><span>♙</span><input id="fullname" placeholder="Masukkan Nama Lengkap"></div>
+  <label class="field-label phone-label">No Handphone</label>
+  <div class="field phone-field"><span style="color:#111">+62</span><span style="height:22px;border-left:1px solid #ccc"></span><input id="phoneNumber" inputmode="numeric" placeholder="Masukkan Nomor Handphone"></div>
+  <button class="register" onclick="goVerify()">Daftar</button>
+</section>
+<section class="screen" id="verify" aria-label="Verifikasi no hp">
+  <button class="back" onclick="show('signup')">‹</button><div class="title">Verifikasi Nomor Handphone</div>
+  <div class="helper">Masukkan kode OTP yang telah dikirim melalui WhatsApp ke <b>+62</b></div>
+  <div class="otp" id="otp"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
+  <div class="resend">Tidak menerima OTP? <span onclick="toast('Kode OTP dikirim ulang')">Kirim ulang</span></div>
+  <button class="verify-btn" onclick="show('dashboard')">Verifikasi</button>
+</section>
+<section class="screen" id="dashboard" aria-label="Dashboard">
+  <div class="hero"></div><div class="balance-card"><div class="small">Saldo Saat Ini</div><div class="balance">Rp 4.250.000</div><div class="money-split"><div class="money-col"><div class="label">↗ Pemasukan</div><strong>Rp 6.500.000</strong></div><div class="money-col out"><div class="label">↘ Pengeluaran</div><strong>Rp 2.250.000</strong></div></div></div>
+  <div class="quick-title">Aksi Cepat</div><div class="quick-row">
+    <button class="quick" onclick="openCategories('Pemasukan')"><div class="bubble">↗</div>Pemasukan</button>
+    <button class="quick" onclick="openCategories('Pengeluaran')"><div class="bubble">↘</div>Pengeluaran</button>
+    <button class="quick" onclick="show('budget')"><div class="bubble">◉</div>Laporan</button>
+    <button class="quick" onclick="show('budget')"><div class="bubble">▣</div>Anggaran</button>
+  </div><div class="divider"></div><div class="tx-title">Transaksi Terakhir</div><button class="seeall" onclick="openCategories('Pengeluaran')">Lihat Semua</button>
+  <div class="transactions">
+    <div class="tx"><div class="tx-icon">▤</div><div><div class="tx-name">Gaji Bulanan</div><div class="tx-kind">Pendapatan</div></div><div class="tx-value">+Rp 5.000.000<div class="tx-date">01 Nov</div></div></div>
+    <div class="tx"><div class="tx-icon">▪</div><div><div class="tx-name">Belanja</div><div class="tx-kind">Kebutuhan</div></div><div class="tx-value red">-Rp 350.000<div class="tx-date">02 Nov</div></div></div>
+    <div class="tx"><div class="tx-icon">▰</div><div><div class="tx-name">Tagihan Listrik</div><div class="tx-kind">Utilitas</div></div><div class="tx-value red">-Rp 210.000<div class="tx-date">03 Nov</div></div></div>
+    <div class="tx"><div class="tx-icon">▤</div><div><div class="tx-name">Freelance</div><div class="tx-kind">Pendapatan</div></div><div class="tx-value">+Rp 1.500.000<div class="tx-date">04 Nov</div></div></div>
+  </div>
+  <nav class="bottom-nav"><button class="navitem" onclick="show('dashboard')"><span class="glyph">⌂</span>Beranda</button><button class="navitem" onclick="openCategories('Pengeluaran')"><span class="glyph">▤</span>Transaksi</button><button class="navitem" onclick="show('budget')"><span class="glyph">◉</span>Laporan</button><button class="navitem" onclick="show('profile')"><span class="glyph">♙</span>Profil</button></nav>
+</section>
+<section class="screen" id="categories" aria-label="Pilih kategori">
+  <header class="topbar"><button class="back" onclick="show('dashboard')">‹</button>Pilih kategori</header>
+  <div class="tabrow"><button class="tab selected" id="incTab" onclick="setTab('Pemasukan')">Pemasukan</button><button class="tab" id="expTab" onclick="setTab('Pengeluaran')">Pengeluaran</button></div>
+  <div class="catlist" id="catlist"></div><button class="add-category" onclick="show('addcat')">＋ &nbsp;Tambah Kategori</button>
+</section>
+<section class="screen" id="addcat" aria-label="Tambah kategori">
+  <header class="topbar"><button class="cancel" onclick="show('categories')">Batalkan</button>Tambahkan Kategori<button class="done" onclick="saveCategory()">✓</button></header>
+  <div class="tabrow"><button class="tab selected" id="addInc" onclick="setAddTab('Pemasukan')">◉ Pemasukan</button><button class="tab" id="addExp" onclick="setAddTab('Pengeluaran')">Pengeluaran</button></div>
+  <button class="catdot" style="position:absolute;left:25px;top:234px;width:40px;height:40px;background:#43a6dd;color:white">▤</button><input class="catname" id="newCategory" placeholder="Silakan masukkan nama kategori">
+  <div class="palette" id="palette"></div><div class="icons"><button class="iconpick active">▤</button><button class="iconpick">▣</button><button class="iconpick">↗</button><button class="iconpick">▰</button><button class="iconpick">◎</button></div>
+</section>
+<section class="screen" id="budget" aria-label="Anggaran">
+  <button class="back" style="top:35px" onclick="show('dashboard')">‹</button><div class="title">Anggaran</div>
+  <div class="monthbar"><button class="month" onclick="setMonth(this)">Oktober</button><button class="month active" onclick="setMonth(this)">November</button><button class="month" onclick="setMonth(this)">Desember</button></div>
+  <div class="total-card"><div class="total-label">Total Anggaran</div><div class="total-num">Rp. 3.000.000</div><div class="progress"><i style="width:65.7%"></i></div><div class="remain"><b>Rp. 1.800.000</b> tersisa <span style="float:right">60%</span></div></div>
+  <div class="budget-heading">Kategori Anggaran</div><div class="budget-list">
+    <div class="brow"><div class="bico">◎</div><div class="btext">Makanan &amp; Minuman<small>Rp.800.000 / Rp.1.000.000</small><div class="progress"><i style="width:80%"></i></div></div><div class="percent">80%</div></div>
+    <div class="brow"><div class="bico">▣</div><div class="btext">Transportasi<small>Rp.200.000 / Rp.500.000</small><div class="progress"><i style="width:40%"></i></div></div><div class="percent">40%</div></div>
+    <div class="brow"><div class="bico">🛒</div><div class="btext">Belanja<small>Rp.200.000 / Rp.500.000</small><div class="progress"><i style="width:40%"></i></div></div><div class="percent">40%</div></div>
+  </div><button class="budget-add btn" onclick="show('categories')">Tambah Anggaran</button>
+</section>
+<section class="screen" id="profile" aria-label="Profil">
+  <button class="pback" onclick="show('dashboard')">‹</button><div class="title">Profil</div><div class="avatar"><svg width="48" height="48" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="11" r="6" stroke="#222" stroke-width="3"/><path d="M8 33v-5c0-6 5-10 12-10s12 4 12 10v5" stroke="#222" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <button class="profile-row one" onclick="editProfile('Nama panggilan','Salsa')"><span>Nama panggilan</span><span>Salsa&nbsp; ›</span></button>
+  <button class="profile-row two" onclick="editProfile('Jenis kelamin','Wanita')"><span>Jenis kelamin</span><span>Wanita&nbsp; ›</span></button>
+  <button class="profile-action logout" onclick="show('signup')">Keluar</button><button class="profile-action delete" onclick="confirmDelete()">Hapus Akun</button>
+</section>
+<div id="toast"></div>
+</main></div>
+<script>
+const phone=document.getElementById('phoneNumber'), fullName=document.getElementById('fullname');
+function resizePhone(){const id=document.querySelector('.screen.active').id;const w=innerWidth,h=innerHeight;const bw=id==='budget'?412:402,bh=id==='budget'?878:874;const s=Math.min(1,w/bw,h/bh);document.getElementById('phone').style.transform='scale('+s+')'}
+addEventListener('resize',resizePhone);resizePhone();
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));document.getElementById('phone').style.width=id==='budget'?'412px':'402px';resizePhone()}
+function goVerify(){if(!fullName.value.trim()){fullName.focus();toast('Masukkan nama lengkap');return}if(!phone.value.trim()){phone.focus();toast('Masukkan nomor handphone');return}show('verify')}
+const otp=[...document.querySelectorAll('#otp input')];otp.forEach((x,i)=>x.addEventListener('input',()=>{x.value=x.value.replace(/\D/g,'').slice(0,1);if(x.value&&otp[i+1])otp[i+1].focus()}));otp.forEach((x,i)=>x.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!x.value&&otp[i-1])otp[i-1].focus()}));
+let activeTab='Pemasukan', added={Pemasukan:[],Pengeluaran:[]};
+const defaults={Pemasukan:[['Freelance','#d4efec','▤'],['Gaji','#d4efec','▤'],['Bonus','#93f48f','$'],['Investasi','#f2d7f6','↗']],Pengeluaran:[['Makanan & Minuman','#d4efec','◎'],['Transportasi','#d4e7f7','▣'],['Belanja','#f7d9df','🛒'],['Tagihan Listrik','#f7d9df','▰']]};
+function renderCategories(){const list=document.getElementById('catlist');list.innerHTML='';[...defaults[activeTab],...added[activeTab]].forEach(([name,color,icon])=>{const row=document.createElement('button');row.className='catrow';row.innerHTML='<span class="catdot" style="background:'+color+'">'+icon+'</span><span>'+name+'</span>';row.onclick=()=>toast('Kategori dipilih: '+name);list.append(row)});document.getElementById('incTab').classList.toggle('selected',activeTab==='Pemasukan');document.getElementById('expTab').classList.toggle('selected',activeTab==='Pengeluaran')}
+function openCategories(tab){activeTab=tab;renderCategories();show('categories')}
+function setTab(tab){activeTab=tab;renderCategories()}
+function setAddTab(tab){activeTab=tab;document.getElementById('addInc').classList.toggle('selected',tab==='Pemasukan');document.getElementById('addExp').classList.toggle('selected',tab==='Pengeluaran')}
+const colors=['#d4efec','#fe5b70','#8f6464','#ff913d','#ffdec5','#ffe990','#dfba43','#43a6dd','#dcaef9','#e72226','#f7dade'];let chosenColor='#43a6dd';
+const palette=document.getElementById('palette');colors.forEach(c=>{const b=document.createElement('button');b.className='swatch';b.style.background=c;b.onclick=()=>{chosenColor=c;document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));b.classList.add('active');b.textContent='✓'};palette.append(b)});palette.children[7].classList.add('active');palette.children[7].textContent='✓';
+function saveCategory(){const name=document.getElementById('newCategory').value.trim();if(!name){toast('Masukkan nama kategori');return}added[activeTab].push([name,chosenColor,'▤']);document.getElementById('newCategory').value='';renderCategories();show('categories')}
+function setMonth(el){document.querySelectorAll('.month').forEach(x=>x.classList.remove('active'));el.classList.add('active')}
+function toast(text){const t=document.getElementById('toast');t.textContent=text;t.style.display='block';clearTimeout(window._toastTimer);window._toastTimer=setTimeout(()=>t.style.display='none',2200)}
+function editProfile(label,value){const next=prompt(label,value);if(next===null)return;const row=label==='Nama panggilan'?document.querySelector('.profile-row.one'):document.querySelector('.profile-row.two');row.lastElementChild.textContent=next+'  ›'}
+function confirmDelete(){if(confirm('Hapus akun ini?'))show('signup')}
+document.querySelectorAll('.iconpick').forEach(b=>b.onclick=()=>{document.querySelectorAll('.iconpick').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+renderCategories();
+</script>
+</body>
+</html>
+
+
+
+
+
